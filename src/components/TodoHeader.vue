@@ -11,6 +11,7 @@
       v-model.trim="task"
       @keydown.enter="enter"
     />
+    <!-- 1、 -->
   </header>
 </template>
 
@@ -22,6 +23,7 @@ export default {
     };
   },
   methods: {
+    // 1、
     enter() {
       if (this.task.length == 0) return alert('please enter');
       this.$emit('add', this.task);
