@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <h1>todos</h1>
-    <input id="toggle-all" class="toggle-all" type="checkbox" />
+    <input id="toggle-all" class="toggle-all" type="checkbox" v-model="isAll" />
     <label for="toggle-all"></label>
     <!-- label 可以关联一个表单标签 -->
     <input
@@ -28,6 +28,17 @@ export default {
       if (this.task.length == 0) return alert('please enter');
       this.$emit('add', this.task);
       this.task = '';
+    },
+  },
+  computed: {
+    isAll: {
+      set(val) {
+        this.$parent.list.forEach((ele) => (ele.isDone = val));
+        // 也可以子传父
+      },
+      get() {
+        return this.$parent.list.every((ele) => ele.isDone);
+      },
     },
   },
 };

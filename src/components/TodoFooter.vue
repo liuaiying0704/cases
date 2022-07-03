@@ -52,7 +52,7 @@ export default {
     },
     // 5.0
     clear() {
-      this.emit('clear');
+      this.$emit('clear');
     },
   },
 };
