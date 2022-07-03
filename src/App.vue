@@ -3,7 +3,6 @@
     <TodoHeader @add="addFn"></TodoHeader>
     <!-- 4.2<TodoMain :list="list" @del="delFn"></TodoMain> -->
     <TodoMain :list="showList" @del="delFn"></TodoMain>
-
     <TodoFooter
       :count="count"
       @filterDate="filterDateFn"
