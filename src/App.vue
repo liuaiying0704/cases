@@ -1,83 +1,98 @@
 <template>
-  <div class="todoapp">
-    <TodoHeader @add="addFn"></TodoHeader>
-    <!-- 4.2<TodoMain :list="list" @del="delFn"></TodoMain> -->
-    <TodoMain :list="showList" @del="delFn"></TodoMain>
-    <TodoFooter
-      :count="count"
-      @filterDate="filterDateFn"
-      @clear="clearFn"
-    ></TodoFooter>
+  <div>
+    <!-- 1、搜索 -->
+    <input
+      type="text"
+      placeholder="搜索书名"
+      v-model.trim="searchBook"
+      @keydown.enter="keydownFn"
+    /><br /><br /><br />
+    <!-- 2、表格-->
+    <table border="1" width="700" style="border-collapse: collapse">
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>书名</th>
+          <th>作者</th>
+          <th>出版商</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <MyMain
+          v-for="item in list"
+          :key="item.id"
+          :obj="item"
+          @del="delFn"
+        ></MyMain>
+      </tbody>
+    </table>
+    <!-- 3、添加 -->
+    <MyAdd></MyAdd>
   </div>
 </template>
-
 <script>
-import TodoHeader from './components/TodoHeader.vue';
-import TodoMain from './components/TodoMain.vue';
-import TodoFooter from './components/TodoFooter.vue';
+import MyAdd from './components/MyAdd.vue';
+import MyMain from './components/MyMain.vue';
 export default {
-  components: { TodoHeader, TodoMain, TodoFooter },
   data() {
     return {
-      // list: [
-      //   { id: 100, name: '吃饭', isDone: true },
-      //   { id: 101, name: '睡觉', isDone: false },
-      //   { id: 102, name: '打豆豆', isDone: true },
-      // ],
-      // 5.1
-      // 缓存
-      list: JSON.parse(localStorage.getItem('list' || [])),
-      // 4.0
-      getSel: 'all',
+      list: [],
+      searchBook: '',
+      flag: true,
     };
   },
+  components: {
+    MyMain,
+    MyAdd,
+  },
+  created() {
+    // 铺设数据
+    this.$axios({
+      url: '/api/getbooks',
+    }).then((res) => {
+      this.list = res.data.data;
+      // console.log(this.list);
+    });
+  },
   methods: {
-    addFn(val) {
-      const id = this.list[this.list.length - 1]
-        ? this.list[this.list.length - 1].id + 1
-        : 100;
-      this.list.push({
-        id,
-        name: val,
-        isDone: false,
+    // 搜索功能
+    keydownFn() {
+      // this.list = this.list.filter((ele) => ele.bookname == this.searchBook);
+      // this.searchBook = '';
+      if (this.searchBook == '') {
+        alert('Please select a book to searchBook');
+      }
+
+      this.$axios({
+        url: '/api/getbooks',
+        params: {
+          bookname: this.searchBook,
+        },
+      }).then((res) => {
+        console.log(res);
+        this.list = res.data.data;
       });
     },
     delFn(id) {
-      let index = this.list.findIndex((ele) => ele.id == id);
-      this.list.splice(index, 1);
-    },
-    // 4\1
-    filterDateFn(val) {
-      this.getSel = val; //yes,all,no
-    },
-    // 5.1 把已完成变为false
-    clearFn() {
-      this.list.forEach((ele) => (ele.isDone = false));
-    },
-  },
-  // 3、剩余统计
-  computed: {
-    // 3
-    count() {
-      return this.list.filter((ele) => !ele.isDone).length;
-    },
-    // 4.3计算
-    showList() {
-      if (this.getSel == 'yes') return this.list.filter((ele) => ele.isDone);
-      if (this.getSel == 'no') return this.list.filter((ele) => !ele.isDone);
-      else {
-        return this.list;
-      }
-    },
-  },
-
-  //6。缓存
-  watch: {
-    list: {
-      deep: true,
-      handler(val) {
-        localStorage.setItem('list', JSON.stringify(val || []));
-      },
+      //发起请求get删除。
+      this.$axios({
+        url: '/api/delbook',
+        params: {
+          id,
+        },
+      }).then((res) => {
+        console.log(res.status);
+        if (res.status == 500) {
+          alert('未指定要删除的图书Id');
+        } else if (res.status == 501) {
+          alert('执行Sql报错');
+        } else if (res.status == 502) {
+          alert('要删除的图书不存在');
+        } else if (res.status == 200) {
+          alert('删除成功');
+        }
+      });
     },
   },
 };
