@@ -5,6 +5,7 @@
     <td>{{ obj.author }}</td>
     <td>{{ obj.publisher }}</td>
     <td>
+      <!-- 按钮 -->
       <button @click="delFn(obj.id)">
         {{ isDel ? '详情' : '删除' }}
       </button>
