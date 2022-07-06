@@ -1,8 +1,18 @@
 <template>
   <div>
     <div class="box">
-      <button @click="phone">手机注册</button>
-      <button @click="email">邮箱注册</button>
+      <button
+        @click="comName = 'MyPhone'"
+        :class="{ active: comName == 'MyPhone' }"
+      >
+        手机注册
+      </button>
+      <button
+        @click="comName = 'MyEmail'"
+        :class="{ active: comName == 'MyEmail' }"
+      >
+        邮箱注册
+      </button>
     </div>
 
     <div>
@@ -38,19 +48,9 @@ export default {
   data() {
     return {
       comName: 'MyPhone',
-      active: '',
     };
   },
-  methods: {
-    phone() {
-      this.comName = 'MyPhone';
-      this.isAll = true;
-    },
-    email() {
-      this.comName = 'MyEmail';
-      this.isAll = true;
-    },
-  },
+
   components: {
     MyPhone,
     MyEmail,
