@@ -44,6 +44,9 @@
           <button class="btn btn-danger btn-sm" @click="del(scope.row.id)">
             删除
           </button>
+          <button class="btn btn-danger btn-sm" v-pression="variable">
+            添加
+          </button>
         </td>
       </template>
     </MyTable>
@@ -59,6 +62,8 @@ export default {
   data() {
     return {
       list: [],
+      newArr: ['admin', 'product', 'user'],
+      variable: 'admin333',
     };
   },
   created() {
@@ -85,6 +90,32 @@ export default {
       }
       obj.tags.push(obj.inputValue);
       obj.inputValue = '';
+    },
+  },
+  //自定义指令
+  directives: {
+    pression: {
+      inserted(el, binding, vnode) {
+        console.log(binding.value);
+        // console.log(vnode);
+        // console.log(this);//undefined
+        console.log(vnode.context.newArr);
+        let res = vnode.context.newArr.includes(binding.value);
+        if (res) {
+          el.style.display = 'block';
+        } else {
+          el.style.display = 'none';
+        }
+      },
+      update(el, binding, vnode) {
+        let res = vnode.context.newArr.includes(binding.value);
+        console.log(res);
+        if (res) {
+          el.style.display = 'block';
+        } else {
+          el.style.display = 'none';
+        }
+      },
     },
   },
 };
