@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import App from './App.vue';
 //
-import Find from '@/views/Find';
-import My from '@/views/My';
-import Part from '@/views/Part';
-// 1、vue-router的使用
+import Find from '@/views/Find.vue';
+import My from '@/views/My.vue';
+import Part from '@/views/Part.vue';
+// 1、vue-router的使用，下载yarn add vue-router
 // 2、引入
 import VueRouter from 'vue-router';
 // 3、注册全局插件
