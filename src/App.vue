@@ -3,6 +3,7 @@
     <h1>模拟hash路由实现</h1>
     <div>
       <a href="#/home">首页</a>&nbsp; <a href="#/movie">电影</a>&nbsp;
+
       <a href="#/about">关于</a>&nbsp;
     </div>
     <div>
