@@ -40,7 +40,6 @@ const routes = [
         path: 'english',
         component: English,
         children: [
-          // 三级默认页面
           { path: '', redirect: 'tom' },
           { path: 'tom', component: Tom },
           { path: 'andy', component: Andy },
