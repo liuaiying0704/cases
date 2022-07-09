@@ -1,65 +1,49 @@
 <template>
-  <div>
-    <van-button type="primary" @click="btn">主要按钮</van-button>
-    <van-button type="info">信息按钮</van-button>
-    <van-button type="default">默认按钮</van-button>
-    <van-button type="warning">警告按钮</van-button>
-    <van-button type="danger">危险按钮</van-button>
-
-    <hr />
-
-    <van-form @submit="onSubmit">
-      <van-field
-        v-model="username"
-        name="用户名"
-        label="用户名"
-        placeholder="用户名"
-        :rules="[{ required: true, message: '请填写用户名' }]"
-      />
-      <van-field
-        v-model="password"
-        type="password"
-        name="密码"
-        label="密码"
-        placeholder="密码"
-        :rules="[{ required: true, message: '请填写密码' }]"
-      />
-      <div style="margin: 16px">
-        <van-button round block type="info" native-type="submit"
-          >提交</van-button
-        >
-      </div>
-    </van-form>
+  <div id="app">
+    <h1>模拟hash路由实现</h1>
+    <div>
+      <a href="#/home">首页</a>&nbsp; <a href="#/movie">电影</a>&nbsp;
+      <a href="#/about">关于</a>&nbsp;
+    </div>
+    <div>
+      <component :is="comName"></component>
+    </div>
   </div>
 </template>
 
 <script>
-// 方式二
-// import Button from 'vant/lib/button';
-// import 'vant/lib/button/style';
-// export default {
-//   components: {
-//     VanButton: Button,
-//     // [Button.name]: Button,
-//   },
-// };
-import { Dialog } from 'vant';
+import MyHome from '@/components/MyHome.vue';
+import MyAbout from '@/components/MyAbout.vue';
+import MyMovie from '@/components/MyMovie.vue';
 export default {
+  name: 'App',
   data() {
     return {
-      username: '',
-      password: '',
+      comName: 'MyHome',
     };
   },
-  methods: {
-    onSubmit(values) {
-      console.log('submit', values);
-    },
-    btn() {
-      Dialog({ message: '提示', showCancelButton: true });
-    },
+  components: {
+    MyHome,
+    MyAbout,
+    MyMovie,
+  },
+  created() {
+    window.onhashchange = () => {
+      // console.log(val);
+      // 根据不同的hash 值 改 comName 值
+      // console.log(location.hash);
+      switch (location.hash) {
+        case '#/movie':
+          this.comName = 'MyMovie';
+          break;
+        case '#/home':
+          this.comName = 'MyHome';
+          break;
+        case '#/about':
+          this.comName = 'MyAbout';
+          break;
+      }
+    };
   },
 };
 </script>
-
-<style></style>
