@@ -2,7 +2,13 @@
   <div>
     <MyHeader title="tabbar"></MyHeader>
     <div style="margin-top: 45px">
-      <component :is="comName"></component>
+      <!-- <component :is="comName"></component> -->
+      <router-link to="/mygoodslist"></router-link>
+      <router-link to="/mygoodssearch"></router-link>
+      <router-link to="/myusernfo"></router-link>
+    </div>
+    <div>
+      <router-view></router-view>
     </div>
     <!-- 1\ -->
     <MyTabBar :list="tabList" @change="changeFn"></MyTabBar>

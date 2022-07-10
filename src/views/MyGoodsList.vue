@@ -8,6 +8,7 @@
         <th>标签</th>
         <th>操作</th>
       </template>
+
       <template #tbody="scope">
         <td>{{ scope.row.id }}</td>
         <td>{{ scope.row.goods_name }}</td>
@@ -75,7 +76,6 @@ export default {
         ele.inputShow = false;
       });
       this.list = res.data.data;
-      console.log(this.list);
     });
   },
   methods: {
