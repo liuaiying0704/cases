@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       tags: [],
-      // 搜索框
+      // 搜索框。
       value: '',
       searchList: [],
       loading: false,
