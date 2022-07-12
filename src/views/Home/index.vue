@@ -10,7 +10,7 @@
     </van-grid>
     <!--  -->
     <van-cell title="最佳匹配" class="title" />
-    <van-cell
+    <!-- <van-cell
       :label="`${
         (item.song &&
           item.song.artists &&
@@ -25,13 +25,27 @@
       <template>
         <van-icon color="#000" name="play-circle-o" size="28" />
       </template>
-    </van-cell>
+    </van-cell> -->
+    <SongItem
+      v-for="(item, index) in songList"
+      :key="index"
+      :author="
+        item.song &&
+        item.song.artists &&
+        item.song.artists[0] &&
+        item.song.artists[0].name
+      "
+      :name="item.name"
+      :id="item.id"
+    ></SongItem>
   </div>
 </template>
 
 <script>
-import { getRecommendListApi, getNewSongListApi } from '@/apis';
+import SongItem from "@/components/SongItem.vue";
+import { getRecommendListApi, getNewSongListApi } from "@/apis";
 export default {
+  components: { SongItem },
   data() {
     return {
       list: [],
@@ -49,7 +63,7 @@ export default {
         this.list = res.data.result;
         console.log(this.list);
       } catch (e) {
-        console.log('e', e);
+        console.log("e", e);
       }
     },
     async getNewSongList() {
@@ -58,7 +72,7 @@ export default {
         this.songList = res.data.result;
         console.log(this.songList);
       } catch (e) {
-        console.log('e', e);
+        console.log("e", e);
       }
     },
   },
